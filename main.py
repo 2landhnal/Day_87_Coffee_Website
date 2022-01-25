@@ -11,9 +11,9 @@ from wtforms.validators import DataRequired
 app = Flask(__name__)
 Bootstrap(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cafes.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL1', "sqlite:///blog.db")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 db = SQLAlchemy(app)
 
 class Cafe(db.Model):
@@ -42,7 +42,7 @@ class Form(FlaskForm):
     coffee_price = StringField('Coffee Price', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
-# db.create_all()
+db.create_all()
 
 @app.route('/')
 def home():
